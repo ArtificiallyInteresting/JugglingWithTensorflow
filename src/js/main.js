@@ -1,16 +1,23 @@
 class main {
 
     constructor() {
-        self.env = new environment(600, 800);
-        self.this = this;
+        this.env = new environment(600, 800);
     }
 
     loop(timestamp) {
-        env.step();
-        draw(env);
-        self.lastRender = timestamp;
-        window.requestAnimationFrame(self.this.loop);
+        var success = this.env.step();
+        if (!success) {
+            this.env = new environment(600, 800);
+        }
+        draw(this.env);
+        this.lastRender = timestamp;
+        window.requestAnimationFrame(timeStep);
     };
 }
+
 localMain = new main();
-window.requestAnimationFrame(localMain.loop);
+function timeStep(timestamp) {
+    localMain.loop(timestamp)
+}
+
+window.requestAnimationFrame(timeStep);
