@@ -14,4 +14,6 @@ function draw(env) {
         ctx.arc(value[0], value[1], env.ballRadius, 0, 2 * Math.PI);
     });
     ctx.stroke();
+    ctx.font = "20px Georgia";
+    ctx.fillText("Score: " + env.framesSurvived, 10, 550);
 }

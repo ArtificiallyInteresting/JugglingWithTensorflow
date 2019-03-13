@@ -4,19 +4,21 @@ class environment{
     this.height = height;
     this.width = width;
     //todo Should these paddles be an object? The balls? It's fine for now
-    this.leftPaddle = [100,200, 0, 0];//x, y, dx, dy
-    this.rightPaddle = [400,200, 0, 0];//x, y, dx, dy
+    this.leftPaddle = [100,400, 0, 0];//x, y, dx, dy
+    this.rightPaddle = [400,400, 0, 0];//x, y, dx, dy
     this.paddleLength = 20;
-    this.balls = [[100,100,1,1]]; //x, y, dx, dy
+    this.balls = [[100,100,0,0],[400,200,0,0],[100,300,0,0]]; //x, y, dx, dy
     this.ballRadius = 5;
     this.gravityPerStep = .01;
     this.leftController = new humanController();
     this.rightController = new humanController();
     this.maxSpeed = 2;
     this.bounce = 1.1;
+    this.framesSurvived = 0;
   }
 
   step() {
+      this.framesSurvived += 1;
       var ballOutOfBounds = false;
       this.balls.forEach((value, index, array) => {
           value[0] += value[2]; //horizontal motion
@@ -28,7 +30,7 @@ class environment{
           }
       });
       if (ballOutOfBounds) {
-          return false; 
+          return false;
       }
 
       var leftMove = this.leftController.getMove(this);
@@ -80,11 +82,11 @@ class environment{
             this.handleIntersection(this.leftPaddle, ball);
         }
     });
-    // this.balls.forEach((ball) => {
-    //     if (this.isIntersecting(this.rightPaddle, ball)) {
-    //         this.handleIntersection(this.rightPaddle, ball);
-    //     }
-    // });
+    this.balls.forEach((ball) => {
+        if (this.isIntersecting(this.rightPaddle, ball)) {
+            this.handleIntersection(this.rightPaddle, ball);
+        }
+    });
   }
 
   handleIntersection(paddle, ball) {
